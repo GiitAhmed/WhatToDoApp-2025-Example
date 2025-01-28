@@ -1,0 +1,40 @@
+/* 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*/
+
+/*  */
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+  }
+  
+  .header {
+    width: 100%;
+    background: rgb(253, 179, 61);
+    color: rgb(255, 255, 255);
+    display: flex;
+    padding: 0 20px 0 20px;
+    margin: 20px 0;
+    h1 {
+      color: darkblue;
+    }
+  }
+  
+  button {
+    background-color: rgb(43, 234, 43);
+  }
+
+  .delete-button {
+    background-color: red;
+  }
