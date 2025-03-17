@@ -6,12 +6,15 @@ interface TaskListProps {
 const TasksList = ({ taskList, onDeleteTask }: TaskListProps) => {
   return (
     <>
-      <ul className="task-list">
+      <ul>
         {taskList.map((task: string, index: number) => (
-          <li key={index}>
+          <li
+            key={index}
+            className="flex justify-between items-center bg-base-200 p-4 mb-2 rounded"
+          >
             <span>{task}</span>
             <button
-              className="delete-button"
+              className="btn btn-error"
               onClick={() => onDeleteTask(task)}
             >
               Delete

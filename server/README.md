@@ -1,1 +1,1 @@
-Tämä osio on varattu sovelluksen serverin/backend:n toteutukselle
+This section is reserved for the implementation of the application's server/backend.
