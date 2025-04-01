@@ -1,45 +1,33 @@
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
-import { getTasks } from "../services/apiService";
+import { getTasksApi } from "../services/apiService";
+import { TaskModel } from "../models/TaskModels";
+import CreateTask from "../components/CreateTask";
 
 const Tasks = () => {
-  const [taskList, setTaskList] = useState<string[]>([]);
-  const [newTask, setNewTask] = useState<string>("");
+  const [taskList, setTaskList] = useState<TaskModel[]>([]);
 
   const [loading, setLoading] = useState<boolean>(true);
 
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Kutsutaan erillistä API-kutsufunktiota
-    getTasks()
+    getTasksApi()
       .then((data) => {
-        setTaskList(data.tasks); // Asetetaan viesti newTask:lle
-        //setError("Something went wrong!");
+        setTaskList(data);
       })
       .catch((error) => {
-        setError(error.message); // Asetetaan virheviesti
+        setError(error.message);
       })
       .finally(() => {
         setLoading(false);
       });
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTask(e.target.value);
-  };
-
-  // Handle new task creation, by adding it into the list
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!newTask) return;
-    setTaskList([...taskList, newTask]);
-    setNewTask("");
-  }
-
   // Handle task deletion
   const handleDeleteTask = (task: string) => {
-    setTaskList(taskList.filter((listItem: string) => listItem !== task));
+    return;
+    //setTaskList(taskList.filter((listItem: string) => listItem !== task));
   };
 
   return (
@@ -47,20 +35,7 @@ const Tasks = () => {
       <div className="card shadow-lg rounded-lg p-4 max-w-lg">
         <h2 className="text-4xl font-bold mb-4">Tasks</h2>
         <div className="flex mb-4">
-          <input
-            type="text"
-            className="input input-bordered w-full"
-            value={newTask}
-            placeholder="New task"
-            onChange={handleChange}
-          />
-          <button
-            className="btn btn-success ml-2"
-            type="button"
-            onClick={handleSubmit}
-          >
-            Add new task
-          </button>
+          <CreateTask />
         </div>
         {loading ? (
           <div>Loading...</div>

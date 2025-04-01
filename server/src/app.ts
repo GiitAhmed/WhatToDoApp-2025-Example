@@ -8,9 +8,11 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:5173", // Frontend address
-    methods: ["GET", "POST"], // Allow only necessary HTTP methods
+    methods: ["GET", "POST", "DELETE", "PUT"], // Allow only necessary HTTP methods
   })
 );
+
+app.use(express.json());
 
 app.use("/api", taskRoute);
 
