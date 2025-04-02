@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
-import { getTasksApi } from "../services/apiService";
+import {
+  createTaskApi,
+  deleteTaskApi,
+  updateTaskApi,
+  getTasksApi,
+} from "../services/apiService";
 import { TaskModel } from "../models/TaskModels";
 import CreateTask from "../components/CreateTask";
 
 const Tasks = () => {
+  const [message, setMessage] = useState<string>("");
+
   const [taskList, setTaskList] = useState<TaskModel[]>([]);
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -12,6 +19,10 @@ const Tasks = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    getTasks();
+  }, []);
+
+  const getTasks = async () => {
     getTasksApi()
       .then((data) => {
         setTaskList(data);
@@ -22,26 +33,76 @@ const Tasks = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  };
 
   // Handle task deletion
-  const handleDeleteTask = (task: string) => {
-    return;
-    //setTaskList(taskList.filter((listItem: string) => listItem !== task));
+  const handleDeleteTask = async (task: TaskModel) => {
+    if (task.taskId) {
+      setLoading(true);
+      await deleteTaskApi(task.taskId)
+        .then(() => {
+          setMessage("Task was deleted");
+          getTasks();
+        })
+        .catch((error) => {
+          setError(error.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  };
+
+  const handleUpdateTask = (task: TaskModel) => {
+    setLoading(true);
+    updateTaskApi(task)
+      .then((data: TaskModel) => {
+        console.log("Task updated", data);
+        setMessage("Task was updated");
+        getTasks();
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleCreateTask = (task: TaskModel) => {
+    setLoading(true);
+    createTaskApi(task)
+      .then((newTask: TaskModel) => {
+        console.log("Created new task", newTask.name);
+        setMessage("Created new task: " + newTask.name);
+        getTasks();
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <>
-      <div className="card shadow-lg rounded-lg p-4 max-w-lg">
-        <h2 className="text-4xl font-bold mb-4">Tasks</h2>
-        <div className="flex mb-4">
-          <CreateTask />
-        </div>
+      <h2 className="text-4xl font-bold mb-4">Tasks</h2>
+      <div className="card shadow-lg rounded-lg p-4 bg-neutral">
         {loading ? (
           <div>Loading...</div>
         ) : (
-          <TaskList taskList={taskList} onDeleteTask={handleDeleteTask} />
+          <div>
+            <TaskList
+              taskList={taskList}
+              onDeleteTask={handleDeleteTask}
+              onUpdateTask={handleUpdateTask}
+            />
+          </div>
         )}
+        <div className="flex mb-4">
+          <CreateTask onCreateTask={handleCreateTask} />
+        </div>
         {error && (
           <div role="alert" className="alert alert-error">
             <svg
@@ -58,6 +119,12 @@ const Tasks = () => {
               />
             </svg>
             <span>{error}</span>
+          </div>
+        )}
+
+        {message && (
+          <div className="alert alert-success">
+            <span>{message}</span>
           </div>
         )}
       </div>

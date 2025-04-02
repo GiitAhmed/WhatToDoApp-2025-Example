@@ -11,7 +11,8 @@
     "typescript": "^5.6.3"
   },
   "scripts": {
-    "start": "nodemon src/index.ts"
+    "start": "nodemon src/index.ts",
+    "syncdb": "npx ts-node src/scripts/sync-db.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

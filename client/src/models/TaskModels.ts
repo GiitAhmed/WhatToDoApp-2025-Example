@@ -8,4 +8,11 @@ export type TaskModel = {
   content: string;
   startDate?: Date | null;
   endDate?: Date | null;
+  status: TaskStatusEnum;
 };
+
+export enum TaskStatusEnum {
+  new,
+  inprogress,
+  done,
+}

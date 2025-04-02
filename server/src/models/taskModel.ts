@@ -45,6 +45,20 @@ TaskModel.init(
       type: DataTypes.DATE,
       allowNull: true,
     },
+    status: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: TaskStatusEnum.New, // optionally set a default
+      validate: {
+        isInEnumRange(value: number) {
+          if (!Object.values(TaskStatusEnum).includes(value)) {
+            throw new Error(
+              `Invalid TaskStatus value: ${value}, type: ${typeof value}`
+            );
+          }
+        },
+      },
+    },
   },
   {
     sequelize, // pass your Sequelize instance
