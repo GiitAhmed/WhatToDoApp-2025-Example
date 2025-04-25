@@ -1,40 +1,248 @@
-/* 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*/
 
-/*  */
-body {
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-    font-family: sans-serif;
+@layer base {
+  body {
+    @apply bg-white min-h-screen text-gray-900;
   }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 40px;
+}
+
+@layer components {
+  .app-container {
+    @apply grid grid-cols-[200px_1fr] min-h-screen;
   }
-  
-  .header {
-    width: 100%;
-    background: rgb(253, 179, 61);
-    color: rgb(255, 255, 255);
-    display: flex;
-    padding: 0 20px 0 20px;
-    margin: 20px 0;
-    h1 {
-      color: darkblue;
-    }
+
+  .sidebar {
+    @apply fixed h-screen w-[200px] py-8 px-6 bg-gray-50 z-20;
   }
-  
-  button {
-    background-color: rgb(43, 234, 43);
+
+  .app-title {
+    @apply text-2xl font-semibold mb-8 text-gray-900;
+  }
+
+  .nav-button {
+    @apply w-full px-4 py-3 mb-3 rounded-md bg-transparent text-gray-600 text-left transition-all font-medium hover:bg-gray-100;
+  }
+
+  .nav-button.active {
+    @apply bg-gray-100;
+  }
+
+  .main-content {
+    @apply p-12 ml-[200px] min-h-screen bg-gray-50;
+  }
+
+  .content-header {
+    @apply mb-8;
+  }
+
+  .view-title {
+    @apply text-3xl font-bold text-gray-900 mb-8;
+  }
+
+  .filter-bar {
+    @apply flex flex-wrap gap-4 mb-8;
+  }
+
+  .filter-select {
+    @apply px-6 py-3 bg-white border border-gray-200 rounded-lg text-base text-gray-600 min-w-[180px] cursor-pointer hover:border-gray-300 transition-colors;
+  }
+
+  .task-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-8 px-4;
+  }
+
+  .task-card {
+    @apply bg-white rounded-xl border border-gray-200 p-8 flex flex-col gap-4 hover:shadow-lg transition-shadow min-h-[250px] relative;
+  }
+
+  .card-header {
+    @apply flex items-start gap-4 mb-4;
+  }
+
+  .status-dot {
+    @apply w-4 h-4 mt-1 rounded-full flex-shrink-0;
+  }
+
+  .status-dot.completed {
+    @apply bg-green-500 ring-4 ring-green-100;
+  }
+
+  .status-dot.in-progress {
+    @apply bg-yellow-500 ring-4 ring-yellow-100;
+  }
+
+  .status-dot.pending {
+    @apply bg-blue-500 ring-4 ring-blue-100;
+  }
+
+  .status-dot.new {
+    @apply bg-gray-400 ring-4 ring-gray-100;
+  }
+
+  .card-title-section {
+    @apply flex-1 space-y-2;
+  }
+
+  .card-title {
+    @apply text-xl font-semibold text-gray-900 line-clamp-2;
+  }
+
+  .card-date {
+    @apply text-base text-gray-500;
+  }
+
+  .card-description {
+    @apply text-base text-gray-600 mt-4 line-clamp-4 mb-auto;
+  }
+
+  .card-footer {
+    @apply mt-6 pt-4 border-t border-gray-100 flex justify-end;
+  }
+
+  .open-button {
+    @apply px-8 py-3 text-base font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors;
+  }
+
+  .add-new-button {
+    @apply fixed bottom-8 right-8 px-6 py-3 bg-blue-500 text-white text-base font-medium rounded-lg shadow-lg hover:bg-blue-600 transition-colors flex items-center gap-3;
+  }
+
+  /* Form styles */
+  .form-group {
+    @apply mb-6;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  .form-textarea {
+    @apply w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[120px] resize-y;
+  }
+
+  .edit-form-overlay {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-6;
+  }
+
+  .edit-activity-form {
+    @apply bg-white rounded-lg shadow-2xl w-full max-w-2xl p-8;
+  }
+
+  .edit-form-header {
+    @apply border-b border-gray-200 pb-6 mb-8;
+  }
+
+  .edit-form-title {
+    @apply text-2xl font-bold text-gray-900;
+  }
+
+  .date-inputs {
+    @apply grid grid-cols-2 gap-6;
+  }
+
+  .button-group {
+    @apply flex justify-end gap-4 mt-8;
+  }
+
+  .save-button {
+    @apply px-6 py-2.5 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors;
+  }
+
+  .cancel-button {
+    @apply px-6 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors;
+  }
+
+  .close-button {
+    @apply absolute right-6 top-6 text-gray-500 hover:text-gray-700 text-xl font-medium;
+  }
+
+  .error-message {
+    @apply bg-red-100 text-red-700 p-6 rounded-lg mb-8;
+  }
+
+  .loading-state {
+    @apply flex items-center justify-center min-h-[300px] text-gray-500 text-lg;
+  }
+
+  .activity-content {
+    @apply p-6;
+  }
+
+  .activity-header {
+    @apply flex justify-between items-start gap-4;
+  }
+
+  .activity-title {
+    @apply text-xl font-bold text-gray-900;
+  }
+
+  .activity-description {
+    @apply mt-3 text-gray-600;
+  }
+
+  .activity-meta {
+    @apply flex flex-wrap gap-4 mt-6 text-sm text-gray-500;
+  }
+
+  .activity-footer {
+    @apply flex items-center justify-between mt-6 pt-4 border-t border-gray-200;
+  }
+
+  .task-count {
+    @apply flex items-center gap-2 text-gray-600;
+  }
+
+  .status-badge {
+    @apply badge badge-lg font-medium;
+  }
+
+  .status-badge.completed {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .status-badge.in-progress {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+
+  .status-badge.pending {
+    @apply bg-blue-100 text-blue-800;
+  }
+
+  .action-buttons {
+    @apply flex gap-2;
+  }
+
+  .action-button {
+    @apply btn btn-ghost btn-sm text-gray-600 hover:text-primary;
   }
 
   .delete-button {
-    background-color: red;
+    @apply btn btn-ghost btn-sm text-red-600 hover:bg-red-50;
   }
+
+  .icon-button {
+    @apply btn btn-circle btn-ghost btn-sm;
+  }
+
+  .task-item {
+    @apply bg-white rounded-lg p-4 shadow border border-gray-200 flex items-center justify-between;
+  }
+
+  .task-title {
+    @apply text-gray-900 font-medium;
+  }
+
+  .task-toggle {
+    @apply px-3 py-1 rounded text-sm font-medium;
+  }
+
+  .task-toggle.completed {
+    @apply bg-green-100 text-green-800;
+  }
+}
